@@ -11,36 +11,28 @@ class KeystrokeSimulatorGUI:
         self.root = root
         self.root.title("Tenebris.dsc")
 
-        # Initialize variables
         self.sentence_var = tk.StringVar(value="Lux fit tenebrae. Tenebrarum fit inanis")
         self.stop_simulation_flag = threading.Event()
         self.spam_sentence_var = tk.StringVar(value="Spam this sentence")
         self.stop_spam_flag = threading.Event()
 
-        # Display instructions popup
         self.display_instructions()
 
-        # GUI elements
         self.create_tabs()
 
-        # Start keyboard listener for global hotkey
         keyboard.on_press_key('esc', self.stop_all)
 
     def create_tabs(self):
-        # Create a tab control
         tab_control = ttk.Notebook(self.root)
 
-        # Tab 1: Simulator
         simulator_tab = ttk.Frame(tab_control)
         self.create_simulator_tab(simulator_tab)
         tab_control.add(simulator_tab, text="Deleter")
 
-        # Tab 2: Spammer
         spammer_tab = ttk.Frame(tab_control)
         self.create_spammer_tab(spammer_tab)
         tab_control.add(spammer_tab, text="Spammer")
 
-        # Pack the tab control
         tab_control.pack(expand=1, fill="both")
 
     def create_simulator_tab(self, parent):
@@ -76,7 +68,6 @@ class KeystrokeSimulatorGUI:
                 pyautogui.press('enter')
                 time.sleep(0.35)
 
-        # Start simulation in a separate thread
         self.stop_simulation_flag.clear()
         threading.Thread(target=simulate, daemon=True).start()
 
@@ -93,7 +84,6 @@ class KeystrokeSimulatorGUI:
                 pyautogui.press('enter')
                 time.sleep(0.15)
 
-        # Start spamming in a separate thread
         self.stop_spam_flag.clear()
         threading.Thread(target=spam, daemon=True).start()
 
